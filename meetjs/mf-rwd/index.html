@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+   <head>
+       <meta charset="utf-8" />
+       <meta name="viewport" content="width=1024" />
+       <meta name="apple-mobile-web-app-capable" content="yes" />
+       <title>Short introduction to Mobile First Responsive Web Design
+by Bernard Lange (@gustaff_weldon)</title>
+       <meta name="author" content="Bernard Lange" />
+       <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+       <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:300,200,400,700'
+rel='stylesheet' type='text/css'>
+       <link href='http://fonts.googleapis.com/css?family=Nixie+One'
+rel='stylesheet' type='text/css'>
+       <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic"
+rel="stylesheet" />
+       <link href="css/styles.css" rel="stylesheet" />
+   </head>
+
+   <body>
+       <div id="impress">
+           <div class="fallback-message">
+               <p>Your browser <b>doesn't support the features
+required</b> by impress.js, so you are presented with a simplified
+version of this presentation.</p>
+               <p>For the best experience please use the latest
+<b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser. Upcoming
+version 10 of Internet Explorer <i>should</i> also handle it.</p>
+           </div>
+
+           <article class="intro step slide" data-x="400" data-z="4000" data-rotate="20">
+               <h1><span>Short introduction to</span><br>Mobile First Responsive Web Design</h1>
+               <p>Bernard Lange<br>
+               @gustaff_weldon
+               </p>
+<!--cognifide logo here -->
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="0">
+               <h2>Device landscape</h2>
+			   <img class="right" src="img/rwd.devices.png" height="300">
+               <ul>
+                   <li>variety of screens</li>
+                   <li>context of use</li>
+               </ul>
+<!--image with various devices-->
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="20">
+              <h1>Mobile First</h1>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="40">
+			   <!--image from luke mobile f article-->
+			   <!--img src="img/mobilefirst_southwest1.jpg"-->
+			   <a class="plain" href="http://www.southwest.com/"><img src="img/mobilefirst_southwest2.jpg"></a>
+               <ul>
+                   <li>start with mobile version as a default</li>
+                   <li>focus on smaller screens and the most important features</li>
+               </ul>
+           </article>
+
+           <article id="rwd" class="step slide" data-x="3000" data-rotate="60">
+              <h1>Responsive Web Design</h1>
+           </article>
+
+           <article class="step slide fill" data-x="3000" data-rotate="80">
+               <img src="img/5.mfrwd-site-adapted.800.png" alt="Image showing site adapted to different resolutions">
+               <ul>
+                   <li>elastic layout with fluid grids</li>
+                   <li>responsive images</li>
+                   <li>media queries</li>
+               </ul>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="100">
+               <h1>Responsive Layouts</h1>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="120">
+               <ul>
+                   <li>percentage based</li>
+                   <li>screen width breakpoints with media queries</li>
+                   <li>flexible within resolution ranges</li>
+               <li>linear default</li>
+               </ul>
+           </article>
+		   
+			<article class="step slide" data-x="3000" data-rotate="140">
+				<h2>Problems</h2>
+				<img src="img/trollIE.png">
+				<ul><li> IE&lt;9</li></ul>
+			</article>
+			
+           <article class="step slide" data-x="3000" data-rotate="160">
+               <h1>Responsive Images</h1>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="180">
+               <p>images adapting to container width</p>
+               <pre class="prettyprint">img { max-width: 100%; }</pre>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="200">
+               <p>small images as default, replaced with JS</code></p>
+               <pre class="prettyprint">&lt;img src="mobile-image.jpg" 
+     data-full-src="desktop-image.jpg"&gt;</pre>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="220">
+               <h2>Problems:</h2>
+               <ul>
+               <li>client side JS dependency</li>
+               <li>server side detection</li>
+               <li>big images sent to small screen devices - wasted
+bandwith and CPU</li>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="240">
+               <h2>Solutions discussed</h2>
+               <pre class="prettyprint">&lt;picture alt="angry pirate"&gt;
+   &lt;source src=hires.png media="min-width:800px"&gt;
+   &lt;source src=midres.png media="network-speed:3g"&gt;
+   &lt;source src=lores.png&gt;
+   &lt;!-- fallback for browsers without support --&gt;
+   &lt;img src=midres.png alt="angry pirate"&gt;
+&lt;/picture&gt;</pre>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="260">
+			   <img src="img/feature-bundle-6-4.jpg" alt="RWD and MF">
+               <ul>
+                   <li>new and capable devices</li>
+                   <li>less capable devices, prepare for mobile</li>
+               </ul>			   
+           </article>
+		   
+           <article id="examples" class="step slide" data-x="3000" data-rotate="280">
+			   <p><a href="http://www.bostonglobe.com"><img src="img/ex-boston.png"></a> 
+                  <a href="http://browser.nokia.com"><img src="img/ex-nokia.png"></a>
+                  <a href="http://yiibu.com"><img src="img/ex-yiibu.png"></a>
+               </p>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="300">
+               <p>Tools</p>
+               <ul>
+                   <li><a
+href="http://www.responsinator.com">http://www.responsinator.com</a></li>
+                   <li><a
+href="http://www.benjaminkeen.com/misc/bricss/">http://www.benjaminkeen.com/misc/bricss/</a></li>
+                   <li><a
+href="http://stuffandnonsense.co.uk/projects/320andup/">320andup</a></li>
+               </ul>
+
+           </article>
+<article class="step slide" data-x="3000" data-rotate="320">
+    <h1>Takeaways</h1>
+    <ul>
+		<li>think in flexible units % and em's</li>
+		<li>default to lightweight mobile version and small images</li>
+		<li>start small and enhance for wider screens</li>
+		<li>keep layout fluid within the ranges</li>
+	</ul>
+</article>
+
+<article class="step slide" data-x="3000" data-rotate="340">
+Questions?
+<!-- questiin image -->
+</article>
+
+ <article class="step slide outro" data-x="1500" data-z="2000" data-rotate="360">
+               <h1>Thank you</h1>
+               <p>Bernard Lange<br>
+               @gustaff_weldon
+               </p>
+
+           </article>
+       </div>
+       <div class="hint">
+           <p>Use a spacebar or arrow keys to navigate</p>
+       </div>
+
+   </body>
+
+   <script src="js/impress.js"></script>
+   <script src="js/prettify.js"></script>
+
+   <script>
+       (function() {
+           if ("ontouchstart" in document.documentElement) {
+               document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+           }
+           prettyPrint();
+           impress();
+       }());
+   </script>
+</html>
