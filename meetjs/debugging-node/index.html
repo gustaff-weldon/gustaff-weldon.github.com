@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+   <head>
+       <meta charset="utf-8" />
+       <meta name="viewport" content="width=1024" />
+       <meta name="apple-mobile-web-app-capable" content="yes" />
+       <title>Debugging Node.js applications
+by Bernard Lange (@gustaff_weldon)</title>
+       <meta name="author" content="Bernard Lange" />
+       <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+       <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:300,200,400,700'
+rel='stylesheet' type='text/css'>
+       <link href='http://fonts.googleapis.com/css?family=Nixie+One'
+rel='stylesheet' type='text/css'>
+       <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic"
+rel="stylesheet" />
+       <link href="css/styles.css" rel="stylesheet" />
+   </head>
+
+   <body>
+       <div id="impress">
+           <div class="fallback-message">
+               <p>Your browser <b>doesn't support the features
+required</b> by impress.js, so you are presented with a simplified
+version of this presentation.</p>
+               <p>For the best experience please use the latest
+<b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser. Upcoming
+version 10 of Internet Explorer <i>should</i> also handle it.</p>
+           </div>
+
+           <article class="intro step slide" data-x="400" data-z="4000" data-rotate="20">
+               <h1>Debugging Node.js applications</h1>
+               <p>Bernard Lange<br>
+               @gustaff_weldon
+               </p>
+<!--cognifide logo here -->
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="0">
+               <h2>No Developer tools</h2>
+         <img class="right" src="img/firebug.jpg" height="300">
+               <ul>
+                   <li>my JS runs on the server</li>
+                   <li>can't watch it running</li>
+                   <li>old IE6 times...</li>
+               </ul>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="20">
+              <h1>Not all hope is lost</h1>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="40">
+               <h2>Node.js' built in debugger</h2>
+               <pre class="prettyprint">node debug app.js</pre>
+           </article>
+
+           <article class="step slide fill" data-x="3000" data-rotate="60">
+              <img src="img/node.js-debugger.png" alt="built in node.js debugger">
+              <a href="http://nodejs.org/api/debugger.html">http://nodejs.org/api/debugger.html</a>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="80">
+              <img src="img/mud-user.jpg" alt="MUD user" />
+              <p>For hardcore MUD users</p>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="100">
+              <h2>Running Node.js in debug mode</h2>
+              <pre class="prettyprint"><code>
+node --debug app.js
+              </code></pre>
+or
+              <pre class="prettyprint"><code>
+node --debug-brk app.js
+              </code></pre>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="120">
+              <img src="img/node.js-debug-mode.png" alt="node.js in debug mode">
+           </article>
+       
+          <article class="step slide" data-x="3000" data-rotate="140">
+            <p>not really useful on it's own</p>
+            <img src="img/v8-tools.jpg" alt="v8 engine wine table-shelf">
+            <p>best when combined with V8 debugging tools</p>
+          </article>
+      
+           <article class="step slide" data-x="3000" data-rotate="160">
+               <h1>Hmmm,<br>but V8 is used as well in Chrome...</h1>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="180">
+              <pre class="prettyprint"><code>
+npm install node-inspector -g
+node --debug-brk app.js
+node-inspector
+              </code></pre>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="200">
+               <h2>Moving from console</h2>
+               <img src="img/node-inspector-cmd.png" />
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="220">
+               <h2>To browser</h2>
+               <img src="img/node-inspector-browser.png" />
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="240">
+               <h2>How about IDE?</h2>
+              <img src="img/eclipse.jpg" >
+              <pre class="prettyprint"><code>
+                TODO install instructions
+              </code></pre>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="260">
+              <h2>IntelliJ (PHP/Web)Storm</h2>
+               <ul>
+                   <li>full blown-debugger</li>
+                   <li>paid :(</li>
+               </ul>         
+           </article>
+       
+           <article class="step slide" data-x="3000" data-rotate="280">
+              <img src="img/webstorm-debug.png" />
+              <a href="http://bit.ly/webstorm-node-debug">http://bit.ly/webstorm-node-debug</a>
+           </article>
+
+           <article class="step slide" data-x="3000" data-rotate="300">
+              <img src="img/cloud9-logo.jpg" />
+           </article>
+<article class="step slide" data-x="3000" data-rotate="320">
+    <h2>Takeaways</h2>
+    <pre class="prettyprint"><code>node debug-brk app.js</code></pre>
+    <p>run V8 compatible tool of your choice</p>
+  </ul>
+</article>
+
+<article class="step slide" data-x="3000" data-rotate="340">
+Questions?
+<!-- questiin image -->
+</article>
+
+ <article class="step slide outro" data-x="1500" data-z="2000" data-rotate="360">
+               <h1>Thank you</h1>
+               <p>Bernard Lange<br>
+               @gustaff_weldon
+               </p>
+
+           </article>
+       </div>
+       <div class="hint">
+           <p>Use a spacebar or arrow keys to navigate</p>
+       </div>
+
+   </body>
+
+   <script src="js/impress.js"></script>
+   <script src="js/prettify.js"></script>
+
+   <script>
+       (function() {
+           if ("ontouchstart" in document.documentElement) {
+               document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+           }
+           prettyPrint();
+           impress();
+       }());
+   </script>
+</html>
