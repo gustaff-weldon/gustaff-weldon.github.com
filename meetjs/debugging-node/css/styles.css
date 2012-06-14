@@ -131,7 +131,7 @@ body     { pointer-events: none; }
     font-size: 48px;
     line-height: 1.5;*/
 	font-family: 'Yanone Kaffeesatz', 'Nixie One', 'Open Sans', Arial, sans-serif;	
-    font-size: 60px;
+    font-size: 55px;
     line-height: 1.5;	
 }
 
@@ -191,7 +191,7 @@ pre {
 }
 
 code {
-  font-size: 95%;
+  font-size: 100%;
   font-family: 'Droid Sans Mono', 'Courier New', monospace;
 
   color: black;
