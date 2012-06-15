@@ -97,7 +97,11 @@ npm install node-inspector -g
 node --debug-brk app.js
 node-inspector
               </code></pre>
-               <img src="img/node-inspector-cmd.png" />
+              <img src="img/node-inspector-cmd.png" />
+              <ul>
+                 <li>can't debug yet unread files</li>
+                 <li>use <code>debugger;</code> statement to stop flow</li>
+               </ul>         
            </article>
 
            <article class="step slide" data-x="3000" data-rotate="200">
@@ -107,30 +111,29 @@ node-inspector
 
            <article class="step slide" data-x="3000" data-rotate="220">
               <h2>To IDE</h2>
-              <img src="img/eclipse.jpg" />
+              <img src="img/eclipse.png" />
 
-              <pre>
-(update site): http://chromedevtools.googlecode.com/svn/update/dev/
-install Google Chrome Developer Tools extension
-create debug configuration Standalone V8 VM with debugger port 5858
-              </pre>
+              <ul>
+<li>use update site: http://chromedevtools.googlecode.com/svn/update/dev/</li>
+<li>install Google Chrome Developer Tools extension</li>
+<li>create debug configuration "Standalone V8 VM" on port 5858</li>
+              </ul>
            </article>
 
            <article class="step slide" data-x="3000" data-rotate="240">
             <img src="img/eclipse-debug.png" >
               <ul>
-                 <li>can't debug yet unread files</li>
-               </ul>         
-
+                <li>bit awkward to use, but still handy</li>
+              </ul>
            </article>
 
            <article class="step slide" data-x="3000" data-rotate="260">
               <h2>IntelliJ (PHP/Web)Storm</h2>
               <img class="right" src="img/webstorm-logo.png" />
                <ul>
-                   <li>full blown-debugger</li>
-                   <li>one-click run and debug</li>
                    <li>paid :(</li>
+                   <li>full blown-debugger</li>
+                   <li>one-click Node.js run and debug</li>
                </ul>         
            </article>
        
@@ -142,21 +145,24 @@ create debug configuration Standalone V8 VM with debugger port 5858
            <article class="step slide" data-x="3000" data-rotate="300">
               <img src="img/cloud9-logo.jpg" />
               <ul>
-                  <li>pretty good debugger</li>
                   <li>free :)</li>
-                  <li>Github based project</li>
-                  <li>can run node for you</li>
+                  <li>pretty good debugger</li>
+                  <li>uses Github/Bitbucket-based project</li>
+                  <li>can run Node.js for you on hosted machine</li>
+                  <li>give it a try, it's getting better and better</li>
                </ul>         
            </article>
 
             <article class="step slide" data-x="3000" data-rotate="320">
               <img src="img/cloud9-debug.png" />
+              <a href="http://c9.io/">http://c9.io/</a>
             </article>
 
             <article class="step slide" data-x="3000" data-rotate="340">
                 <h2>Takeaways</h2>
                 <ul>
                   <li>node --debug-brk app.js</li>
+                  <li><code>debugger;</code> statement to force breakpoints</li>
                   <li>use V8 debugger (CLI, node-inspector, Eclipse)</li>
                   <li>or use IDE which can run Node (WebStorm, Cloud9)</li>
             </article>
