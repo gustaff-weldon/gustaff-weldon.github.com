@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<!--
+  Google HTML5 slide template
+
+  Authors: Luke Mahé (code)
+           Marcin Wichary (code and design)
+
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+  <head>
+    <title>Asynchronous script loading</title>
+
+    <meta charset='utf-8'>
+    <link rel="stylesheet" href="../custom.css" ></link>
+    <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:300,200,400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Nixie+One' rel='stylesheet' type='text/css'>
+    <script src='../js/jquery-1.5.2.min.js'></script>
+    <script src='../slides.js'></script>
+    <script src='../demo.js'></script>
+  </head>
+
+  <style>
+    /* Your individual styles here, or just use inline styles if that’s
+       what you want. */
+
+
+  </style>
+
+  <body style='display: none'>
+
+    <section class='slides layout-regular template-custom'>
+
+
+      <article class="title">
+        <h1>
+          Asynchronous Script Loading
+        </h1>
+        <p>
+          Bernard Lange
+          <br>
+          @gustaff_weldon
+        </p>
+      </article>
+
+      <article>
+        <h3>Asynchronous script loading</h3>
+        <ul>
+            <li>What</li>
+            <li>Why</li>
+            <li>How</li>
+        </ul>
+      </article>
+
+      <article>
+        <pre>
+&lt;script src="jquery.js">&lt;/script>
+&lt;script src="jquery-plugin-1.js">&lt;/script>
+....
+&lt;script src="jquery-plugin-n.js">&lt;/script>
+&lt;script src="my-script.js">&lt;/script&gt;</pre>
+      </article>
+
+      <article >
+        <h3>Supersize Web</h3>
+            <q>the average top ten U.S. web site contains <strong>~250K</strong> of JavaScript.
+            But <strong>executes 25%</strong> of it before the onload event.</q>
+       <sub>Souders, 2008</sub>
+      </article>
+
+      <article>
+        <h3>Page scripts</h3>
+        <ul>
+            <li>blocking (move down)</p>
+            <li>parsing overhead</p>
+            <li>wasted bandwith</li>
+        </ul>
+      </article>
+
+      <article>
+        <h3>Why</h3>
+        <ul>
+            <li>bootstrap load</li>
+            <li>dependencies management</li>
+            <li>modules on demand</li>
+            <li>mobile</li>
+        </ul>
+      </article>
+
+      <article>
+          <h3>Asynchronous Script loading</h3>
+          <ul>
+              <li>non blocking</li>
+              <li>on demand</li>
+              <li>lightweight</li>
+          </ul>
+      </article>
+
+    <article>
+        <h3>Challenges</h3>
+        <ul>
+            <li>preserve order</li>
+            <li>delayed excecution</li>
+            <li>preloading (img/object/script cache hacks)</li>
+        </ul>
+    </article>
+
+      <article>
+          <h3>How</h3>
+          <ul>
+              <li>document.write script</li>
+              <li>script in an iframe</li>
+              <li>xhr (eval/injection)</li>
+              <li>script defer</li>
+              <li>dynamic DOM script</li>
+              <li>script async</li>
+          </ul>
+      </article>
+
+      <article>
+          <h3 class="center nooo">document.write</h3>
+          <img src="images/sayno.jpg" />
+      </article>
+
+
+      <article>
+          <h3>Script in an iframe</h3>
+          <pre>
+&ltiframe src='A.html'&gt;&lt/iframe&gt;</pre>
+          <ul>
+              <li>same domain as main page</li>
+              <li>refactor script to access script in iframe</li>
+          </ul>
+<pre class="expert">
+// access iframe from main page
+window.frames[0].someMethodInScript();
+// access main page from iframe
+parent.document.createElement('div');</pre>
+      </article>
+
+      <article>
+          <h3><span class="nooo">iframe</span></h3>
+          <p>slowest and <strong>most expensive</strong> DOM element to create</p>
+          <img src="images/sayno.jpg" />
+      </article>
+
+      <article>
+          <h3>xhr eval</h3>
+          <pre><strong>eval</strong>(xhrObj.responseText);</pre>
+          <ul>
+              <li>same domain constraint</li>
+              <li>Douglas Crockford does no eval</li>
+          </ul>
+      </article>
+
+      <article>
+          <h3>xhr inject</h3>
+          <pre>
+document.head.appendChild(script);
+<strong>script.text</strong> = xhrObj.responseText;</pre>
+          <ul>
+              <li>same domain constraint</li>
+              <li>faster than eval</li>
+              <li>Doug made happier</li>
+          </ul>
+      </article>
+
+    <article>
+      <h3>script defer</h3>
+      <pre>
+&lt;script <strong>defer</strong> src="script.js">&lt;/script&gt;</pre>
+      <p>execute after the document has been parsed</p>
+      <ul>
+        <li>preserves order</li>
+		<li>no inline scripts, nor <i>document.write</i> (ads...)</li>
+        <li><a class="popup" href="http://caniuse.com/#search=defer">widely supported</a><br/>
+            <span class="browser ie"><span>IE</span><span class="v">4+</span></span>
+            <span class="browser ff"><span>FF</span><span class="v">3.5+</span></span>
+            <span class="browser chrome"><span>Chrome</span><span class="v">8+</span></span>
+            <span class="browser opera disabled"><span>Opera</span><span class="v"></span></span>
+            <span class="browser safari"><span>Safari</span><span class="v">5+</span></span>
+            <span class="browser mobile-safari"><span>Safari</span><span class="v">5+</span></span>
+            <span class="browser android"><span>Safari</span><span class="v">3+</span></span></li>
+      </ul>
+    </article>
+
+    <article>
+        <h3>DOM script</h3>
+        <pre>
+var script = document.createElement("script");
+script.src = url;
+document.head.appendChild(script);</pre>
+        <ul>
+            <li>different domains allowed</li>
+            <li>good choice overall</li>
+            <li>order not preserved
+            <span class="browser ff"><span>FF</span><span class="v">4+</span></span>
+            <span class="browser chrome"><span>Chrome</span></span>
+            <span class="browser ie"><span>IE</span></span></li>
+        </ul>
+    </article>
+
+    <article class="html5">
+      <h3>script async</h3>
+      <pre>
+&lt;script <strong>async</strong> src="script.js">&lt;/script&gt;</pre>
+	  <p>execute asynchronously when script is available</p>
+      <ul>
+		<li>takes precedence over defer</li>
+		<li>no inline scripts</li>
+        <li><a class="popup" href="http://caniuse.com/#search=async">getting traction</a><br>
+            <span class="browser ie"><span>IE</span><span class="v">10+</span></span>
+            <span class="browser ff"><span>FF</span><span class="v">4+</span></span>
+            <span class="browser chrome"><span>Chrome</span><span class="v">8+</span></span>
+            <span class="browser opera disabled"><span>Opera</span><span class="v"></span></span>
+            <span class="browser safari"><span>Safari</span><span class="v">5+</span></span>
+            <span class="browser mobile-safari"><span>Safari</span><span class="v">5+</span></span>
+            <span class="browser android"><span>Safari</span><span class="v">3+</span></span>
+        </li>
+      </ul>
+
+      <section class="note">
+            Set this Boolean attribute to indicate that the browser should, if possible, execute the script asynchronously. It has no effect on inline scripts (i.e., scripts that don't have the src attribute). In older browsers that don't support the async attribute, parser-inserted scripts block the parser; script-inserted scripts execute asynchronously in IE and WebKit, but synchronously in Opera and pre-4.0 Firefox. In Firefox 4.0, the async DOM property defaults to true for script-created scripts, so the default behavior matches the behavior of IE and WebKit. To request script-inserted external scripts be executed in the insertion order in browsers where the document.createElement("script").async evaluates to true (such as Firefox 4.0), set .async=false on the scripts you want to maintain order. Never call document.write() from an async script. In Gecko 1.9.2, calling document.write() has an unpredictable effect. In Gecko 2.0, calling document.write() from an async script has no effect (other than printing a warning to the error console).
+      </section>
+    </article>
+
+    <article class="demo html5">
+           <section class="cols">
+               <section>
+                   <h3>&lt;script&gt;<br/>&lt;img&gt;</h3>
+                   <pre class="expert">
+&lt;script src="slow.js"&gt;&lt;/script&gt;
+...
+&lt;img src="HTML5_Logo.png"/&gt;
+</pre>
+                   <iframe frameborder="0" src="dummy.html" class="frame" id="frame1"></iframe>
+               </section>
+               <section>
+                   <h3>&lt;script async&gt;<br/>&lt;img&gt;</h3>
+                   <pre class="expert">
+&lt;script <strong>async</strong> src="slow.js"&gt;&lt;/script&gt;
+...
+&lt;img src="HTML5_Logo.png"/&gt;</pre>
+                   <iframe frameborder="0" src="dummy.html" class="frame" id="frame2"></iframe>
+               </section>
+           </section>
+
+           <p><button type="button" id="test1" name="" value="" >Test</button></p>
+           <script>
+               (function(){
+                   $("#test1").click(function() {
+                      $("#frame1")[0].src = "dummy.html";
+                      $("#frame1")[0].src = "without-async-1.html";
+                      $("#frame2")[0].src = "dummy.html";
+                      $("#frame2")[0].src = "with-async-1.html";
+                   });
+               }());
+           </script>
+    </article>
+
+    <article>
+		<h3>script vs defer vs async</h3>
+		<p><img width="100%" src="images/async-defer-execution.jpg" /></p>
+    </article>
+
+    <article>
+        <h2>Execution order</h3>
+        <a href="http://dilbert.com/strips/comic/1996-06-04/" title="Dilbert.com"><img src="http://dilbert.com/dyn/str_strip/000000000/00000000/0000000/000000/10000/8000/200/18292/18292.strip.gif" border="0" alt="Dilbert.com" /></a>
+    </article>
+
+    <article>
+        <h3>preloading</h3>
+        <section>
+            <p>type hack</p>
+           <pre>
+var s = doc.createElement('script');
+s.type = <strong>'text/cache'</strong>;
+s.src = url;</pre
+            <p>image/object hack</p>
+            <pre>
+if (isIE) {
+    new Image().src = scriptUrl;
+}
+o = document.createElement('object');
+o.data = scriptUrl;</pre>
+        </section>
+    </article>
+
+    <article>
+        <h2>we can do better</h2>
+    </article>
+
+
+      <article class="html5">
+        <h3>async=false</h3>
+          <p>to make script-inserted external scripts execute in their insertion order</p>
+          <pre>
+var script = document.createElement("script");
+<strong>script.async = false;</strong>
+script.src = url;
+document.head.appendChild(script);</pre>
+
+      </article>
+
+    <article class="demo html5">
+           <section class="cols">
+               <section>
+                   <h3>script.async=true;</h3>
+                   <pre class="expert">
+var script = document.createElement("script");
+script.src = url;
+document.head.appendChild(script);</pre>
+                   <div class="frame output" id="output1"></div>
+               </section>
+               <section>
+                   <h3>script.async = false;</h3>
+                   <pre class="expert">
+var script = document.createElement("script");
+script.async = false;
+script.src = url;
+document.head.appendChild(script);</pre>
+                   <div class="frame output" id="output2"></div>
+               </section>
+           </section>
+
+           <p><button type="button" id="test2" name="" value="" >Test</button></p>
+           <script>
+               (function(){
+                    $("#test2").click(function() {
+                        dynamicAsyncDemo();
+                    });
+               }());
+           </script>
+    </article>
+
+
+    <article>
+        <h3>Not so easy</h3>
+        <img src="./images/asynch-load.png" />
+        <p>No single technique warranties order execution in all browsers</p>
+    </article>
+
+    <article>
+        <h3>Use loaders</h3>
+        <ul>
+            <li>require.js</li>
+            <li>LABjs</li>
+            <li>head.js</li>
+            <li>YUI Loader</li>
+            <li>many others... (<a href="http://bit.ly/loaders">http://bit.ly/loaders</a>)</li>
+        </ul>
+    </article>
+
+    <article>
+        <h3>LabJS</h3>
+        <pre class="expert">
+&lt;script src="framework.js"&gt;&lt;/script&gt;
+&lt;script src="plugin.framework.js"&gt;&lt;/script&gt;
+&lt;script src="myplugin.framework.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+framework.init();
+myplugin.doSomething();
+&lt;/script&gt;</pre>
+
+        <pre>
+$LAB.script("framework.js")
+    .<strong>wait()</strong>
+    .script("plugin.framework.js")
+    .script("myplugin.framework.js")
+    .<strong>wait</strong>(function(){
+        framework.init();
+        myplugin.doSomething();
+    });</pre>
+
+    </article>
+
+    <article>
+        <h2>Last (but not least) argument</h3>
+    </article>
+
+
+      <article>
+          <h3>AMD (Asynchronous Module Definition)</h3>
+          <p></p>
+            <q>
+            format to provide a solution for modular JavaScript that developers can use today
+            </q>
+      </article>
+
+      <article>
+          <h3>define</h3>
+          <pre>
+define('myModule', ['math', 'graph'],
+    function ( math, graph ) {
+        var pub = {
+            plot: function(x, y){
+                var coords = math.randomGrid(x,y);
+                return graph.drawPie(coords);
+            }
+        };
+        return pub;
+    };
+});</pre>
+      </article>
+
+      <article>
+          <h3>require</h3>
+          <pre>
+require(['foo', 'bar'], function ( foo, bar ) {
+        // rest of your code here
+        foo.doSomething();
+});</pre>
+          <pre class="expert">
+//Dojo 1.7 (AMD)
+require(["dojo/ready","dojo/fx"], function(ready,fx) {
+    ready(function(){
+        require(["dijit/form/Button","dojo/_base/window"], function(btn,win) {
+            ready(function(){
+                new dijit.form.Button({}).placeAt(win.body());
+            });
+        });
+    });
+});</pre>
+          <p>Dojo 1.7, Mootols 2.0, jQuery 1.7 - AMD compliant</p>
+      </article>
+
+
+      <article class="fill">
+        <h3>Questions?</h3>
+        <img src="./images/questions.jpg">
+      </article>
+
+      <article>
+        <h2>Thank you!</h2>
+        <p>@gustaff_weldon</p>
+      </article>
+    </section>
+
+  </body>
+</html>
