@@ -1,0 +1,28 @@
+1. His name is John
+2. His name is {NAME}
+3. His name is {NAME} and he's 23 years old.
+4. His name is {NAME} and he's {AGE, plural, one{year} other{# years}} old.
+5. {GENDER, select, male{His} female{Her} other{Its} } name is {NAME} and he's {AGE, plural, one{year} other{# years}} old.
+6. {GENDER, select, male{His} female{Her} other{Its} } name is {NAME} and {GENDER, select, male{he} female{she} other{it} }'s {AGE, plural, one{year} other{# years}} old.
+
+4. {SEL1, select,
+  other {{PLUR1, plural,
+          one {1}
+          other {{SEL2, select,
+                  other {deep in the heart.}
+                }}
+        }}
+}
+5. {GENDER, select,
+    male {He}
+  female {She}
+   other {They}
+} found {NUM_RESULTS, plural,
+            one {1 result}
+          other {# results}
+        } in {NUM_CATEGORIES, plural,
+                  one {1 category}
+                other {# categories}
+             }.
+6. Krzyś ma {COUNT,plural, one{# miesiąc} few{# miesiące} many{# miesięcy} other{ # miesiąca } }
+7. Jan ma {COUNT,plural, one{# kota} few{# koty} many{# kotów} other{ # kotów } }
