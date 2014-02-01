@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Web Performance</title>
+
+        <meta name="description" content="Musings about web performance">
+        <meta name="author" content="Bernard Lange">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+        <style>
+            .media-aside {
+                float: right;
+                margin: 1em;
+                width: 40%;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+
+                <section data-markdown data-background="img/tv-test-picture.jpg">
+                    <script type="text/template">
+
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        # Web performance
+                        ## Episode 1: When browser meets server
+
+                        <br>
+                        Directed by:
+
+                        Bernard Lange
+
+                        @gustaff_weldon
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ![HolidayCheck homepage](img/hc-home.png)
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## What we want?
+                    ![cheetah](img/cheetah.jpg)
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## What we often get
+                    ![slow truck](img/big-truck.jpg)
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Play by [THE RULES](http://developer.yahoo.com/yslow/)
+                    [ ![High Performance Websites](img/cover-high-performance-web-sites.png) ](http://stevesouders.com/hpws/rules.php)
+                    [ ![Even faster websites](img/cover-even-faster-websites.png) ](http://stevesouders.com/efws/)
+                    [ ![Google Speed](img/google.speed.png) ](https://developers.google.com/speed/)
+                    </script>
+                </section>
+
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Why is Performance Important?
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    > Every 100 milliseconds in page load delay costs Amazon.com 1% of sales.
+
+                    <br>
+                    > 500ms increase of Google load resulted in -20% revenue
+
+                    <br>
+                    > 400ms increase of Yahoo resulted in  -5-9% page traffic
+                    </script>
+
+                    <aside class="notes">
+                        Notes:
+                        slow website -> lower user experience -> Higher drop-off rate -> Lower conversion rate
+                    </aside>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    > Fast sites increase user satisfaction and improve the overall quality of the web.
+
+                    [Google Webmaster Guidelines](https://support.google.com/webmasters/answer/35769?hl=en), 2010
+
+                    <br>
+                    Seems like [Google is interested in Time To First Byte](http://moz.com/blog/how-website-speed-actually-impacts-search-ranking)</aside>
+                    </script>
+                </section>
+
+
+                <section data-markdown>
+                    <script type="text/template" class="fragment">
+                    ## Backend vs. Frontend Performance
+
+                    >**80 to 90%** of the end-user response time is spent on the frontend. Start there.
+
+                    [Steve Souders](http://www.stevesouders.com/blog/2012/02/10/the-performance-golden-rule/)
+
+                    </script>
+                    <aside class="notes">
+                        Most of this time is downloading images, stylesheets, scripts, Flash, etc.
+                        Reducing the number and size of HTTP requests is key to faster pages.
+                    </aside>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    http://www.holidaycheck.com
+
+                    [ ![www.holidaycheck.com web page test](img/webpagetest.hc.png) ](http://www.webpagetest.org/result/131030_5J_MAG/1/details/)
+
+
+                    Time spent on backend / frontend: 31% / 69% (via [Phantomas]([https://github.com/macbre/phantomas](https://github.com/macbre/phantomas))
+                    </script>
+                </section>
+
+                <section data-markdown data-transition="fade">
+
+                    <script type="text/template">
+                    ## Performance factors
+                    <ul>
+                        <li class="fragment">Payload size (kB)</li>
+                        <li class="fragment">Number of HTTP requests</li>
+                        <li class="fragment">JS parsing and execution</li>
+                        <li class="fragment">CSS parsing, applying (reflows/repaints)</li>
+                    </ul>
+                    </script>
+                </section>
+
+                <section data-markdown data-transition="fade">
+                    <script type="text/template">
+                    ## Performance factors
+                    <ul>
+                        <li class="fragment">Connection bandwith</li>
+                        <li class="fragment">Connection lag</li>
+                        <li class="fragment">Device CPU/GPU</li>
+                    </ul>
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Frontend includes:
+
+                    * Network time, DNS lookups, latency
+                    * Downloading resources
+                    * Rendering the page (establishing flow, painting)
+                    * Executing JS
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ![Waterfall View](img/waterfall.png)
+                    </script>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        # Diagnosis
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## YSlow
+                        [ ![YSlow](img/yslow-hc.png) ](http://yslow.org/)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## PageSpeed
+                        [ ![GooglePageSpeed](img/pagespeed-hc.png) ](https://developers.google.com/speed/pagespeed/insights_extensions)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Chrome Audits
+
+                        ![Chrome Audits](img/chromeaudits-hc.png)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## [www.webpagetest.org](http://www.webpagetest.org)
+
+                        [ ![WebPageTest](img/webpage-test.png) ](http://www.webpagetest.org/result/131030_5V_J06/)
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        # Reduce number of requests
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Reduce HTTP requests
+                        * Every asset in HTML opens an HTTP connection.
+                        * HTTP connections are really slow (especially on mobile!)
+                        * Correspondingly, the page load time will be high.
+                        * As few HTTP requests as possible.
+                        * Huge positive impact on performance.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Combine CSS Files
+                        Don't do this:
+                        ```
+                        <link rel="stylesheet" href="/css/one.css" />
+                        <link rel="stylesheet" href="/css/two.css" />
+                        <link rel="stylesheet" href="/css/three.css" />
+                        <link rel="stylesheet" href="/css/four.css" />
+                        ```
+
+                        Do this:
+                        ```
+                        <link rel="stylesheet" href="/v2/css/min.css" />
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Combine JS Files
+
+                        Don't do this:
+                        <pre><code>
+                        &lt;script src="/js/one.js"&gt;&lt;/script&gt;
+                        &lt;script src="/js/two.js"&gt;&lt;/script&gt;
+                        &lt;script src="/js/three.js"&gt;&lt;/script&gt;
+                        &lt;script src="/js/four.js"&gt;&lt;/script&gt;
+                        </code></pre>
+
+
+                        Do this:
+                        <pre><code>
+                        &lt;script src="/v2/js/min.js">&lt;/script&gt;
+                        </code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### Combine JS and CSS files
+
+                        Before
+                        ![Multiple files](img/combine-none--1_waterfall.png)
+                        After
+                        ![Multiple files](img/combined--1_waterfall.png)
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        # Promote parallel downloads
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## CSS and JS Placement in HTML
+
+                        * Place CSS declarations at top of HTML file.
+                            * Browsers Don't render page before loading CSS.
+                            * Avoids Flash of Unstyled Content ([FoUC](http://en.wikipedia.org/wiki/Flash_of_unstyled_content)).
+                        * Place JS before closing <code>&lt;/body&gt;</code> tag.
+                            * JS prevents browsers from rendering page.
+                            * JS may change the document with document.write.
+                        </script>
+                    </section>
+
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## JS blocks rendering
+                        Don't do this:
+
+                        <pre><code>
+                        &lt;html&gt;
+                            &lt;head&gt;
+                                &lt;script src="/bin/sleep.cgi?&sleep=10"&lt;/script&gt;
+                                &lt;title&gt;Scripts at the Top&lt;/title&gt;
+                        </code></pre>
+
+                        Do this:
+                        <pre><code>
+                        &lt;html&gt;
+                            &lt;head&gt;
+                                &lt;title&gt;Scripts at the bottom&lt;/title&gt;
+                                &lt;link rel="stylesheet" href="/bin/sleep.cgi"&gt;
+                            &lt;/head&gt;
+                             &lt;body&gt;
+                             ...
+                                &lt;script src="/sleep.cgi?&sleep=10"&gt;&lt;/script&gt;
+                            &lt;/body&gt;
+                        &lt;/html&gt;
+                        </code></pre>
+                        </script>
+                    </section>
+
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ![js-top waterfall](img/jstop.png)
+
+                        ![js-bottom waterfall](img/jsbottom.png)
+
+                        [Comparison](http://stevesouders.com/hpws/move-scripts.php)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ##  # of parallel downloads per domain
+
+                        * IE6, IE7: **2 connections**
+                        * IE>=8, FF, Safari, Chrome: **6 connections**
+
+                        But not all of them are used if JS is downloaded
+
+                        [Test page](http://stevesouders.com/hpws/js-blocking.php)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Serve From Multiple Hostnames ([Domain Sharding](http://www.stevesouders.com/blog/2013/09/05/domain-sharding-revisited/))
+
+                        ```
+                        <link rel="stylesheet" href="http://assets.example.com/css/style.css" />
+                        ```
+
+                        ```
+                        <img src="http://assets.example.com/img/logo.png" />
+                        ```
+
+                        * Sharding allows browsers to download more in parallel.
+                        * Serve static resources from multiple sub-hosts hosted on CDN.
+                        * Don't overengineer, one additional domain is a good start.
+                        * Don't use with SPDY
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Enable [SPDY](http://www.chromium.org/spdy)
+                        * The goal of SPDY is to reduce web page load time.
+                        * prioritizes and multiplexes of resources so only one connection per client is required
+                        * [improving support](http://caniuse.com/spdy), even on mobile
+                        * does not work well with domain sharding
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown data-background="img/rooster-boxes.jpg">
+                        <script type="text/template">
+                        # Size matters
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Minify CSS
+                        Don't do this:
+
+                        ```
+                        .container,                          /* bootstrap .css        */
+                        .navbar-static-top   .container,     /* v2.1.0                */
+                        .navbar-fixed-top    .container,     /* (c) 2012 Twitter, Inc */
+                        .navbar-fixed-bottom .container {    /* Apache License v2.0   */
+                            width: 940px;
+                        }
+
+                        .span12 {
+                            width: 940px;
+                        }
+                        ```
+
+                        Do this:
+                        ```
+                        .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container{width:940px} .span12{width:940px} .span11{width:860px} .span10{width:780px}
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Minify CSS:
+
+                        * YUI Compressor (ycssmin)
+                        * [CSSMin](http://code.google.com/p/cssmin/)
+                        * [Minify](https://code.google.com/p/minify/)
+                        * [CSSCompressor](http://www.csscompressor.com/)
+                        * [mod_pagespeed Apache](http://code.google.com/speed/page-speed/docs/module.html), [nginx](https://github.com/pagespeed/ngx_pagespeed)
+                        </script>
+                        <aside class="notes">
+                            minified: (token replacement, no comments, no line returns, few spaces):
+                        </aside>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Minify JS:
+
+                        Don't do this:
+
+                        ```
+                        /*!
+                         * jQuery JavaScript Library v1.10.2
+                         * Copyright 2005, 2013 jQuery Foundation [..]
+                         */
+                        (function( window, undefined ) {
+                        var
+                            // The deferred used on DOM ready
+                            readyList,
+                            // A central reference to the root jQuery(document)
+                            rootjQuery,
+                            // [..]
+                        ```
+
+                        Do this
+                        ```
+                        (function(e,t){var n,r, // [..]
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        * [UglifyJS](https://github.com/mishoo/UglifyJS)
+                        * [Google Closure Compiler](https://developers.google.com/closure/compiler/)
+                        * [Yahoo YUI Compressor](http://yui.github.io/yuicompressor/)
+                        * [more](http://upcomingweb.org/2012/07/javascript-compressor.html)
+                        * [mod_pagespeed Apache](http://code.google.com/speed/page-speed/docs/module.html), [nginx](https://github.com/pagespeed/ngx_pagespeed)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Minify HTML
+
+                        * [Google source](view-source:http://www.google.com/)
+                        * HTMLCompressor,
+                        * mod_pagespeed
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Serve scaled images
+
+                        * it's generally bad idea to serve 250x250 image to show its 30x30 thumbnail
+                        * specify size of image in markup to [avoid reflows and repaints](https://developers.google.com/speed/docs/best-practices/rendering#SpecifyImageDimensions)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## [Gzip JS/CSS/HTML](http://www.websiteoptimization.com/speed/tweak/compress/)
+                        ```
+                        GET / HTTP/1.1
+                        Accept-Encoding: gzip,deflate
+                        ```
+
+                        ```
+                        HTTP/1.1 200 OK
+                        Content-Encoding: gzip
+                        ```
+
+                        Typical size savings range from 60-85%
+
+                        [Fast check](http://gzipwtf.com/)
+                        </script>
+                    </section>
+
+                </section>
+
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        # Use browser cache
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        Add far future Expires (static conent) or Cache-Control  (dynamic conent) header
+
+                        ```
+                        HTTP/1.1 200 OK
+                        Cache-Control: max-age=300
+                        Expires: Thu, 04 Dec 2003 16:20:12 GMT
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Configure ETags
+
+                        ```
+                        GET /i/yahoo.gif HTTP/1.1
+
+                        HTTP/1.1 200 OK
+                        Last-Modified: Tue, 12 Dec 2006 03:03:59 GMT
+                        ETag: "10c24bc-4ab-457e1c1f"
+
+                        GET /i/yahoo.gif HTTP/1.1
+                        If-Modified-Since: Tue, 12 Dec 2006 03:03:59 GMT
+                        If-None-Match: "10c24bc-4ab-457e1c1f"
+
+                        HTTP/1.1 304 Not Modified
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        * Use CDN
+                        * Make JavaScript and CSS External
+                        * Serve images from a separate cookie-less domain
+                        </script>
+
+                        <aside class="notes">
+                        Some proxies might refuse to cache components served with cookies
+                        </aside>
+                    </section>
+                </section>
+
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Takeaways:
+                    * Make payload smaller
+                    * Reduce number of HTTP requests
+                    * Promote parallel downloads
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Self study
+                    * [Google Web Performance Best Practices](https://developers.google.com/speed/docs/best-practices/rules_intro)
+                    * [Yahoo Web Performance rules](http://developer.yahoo.com/performance/rules.html)
+                    * [Google Developers - Speed](https://developers.google.com/speed/)
+                    * [Webpagetest - measure your site in different browsers](http://www.webpagetest.org/)
+                    * [Steve Souders blog](http://stevesouders.com/)
+                    <img class="media-aside" src="img/more-reading.jpg">
+                    </script>
+
+                </section>
+
+                <section data-markdown data-background="img/questions.jpg">
+                    <script type="text/template">
+                    </script>
+                </section>
+
+                <section data-markdown data-background="img/thats-all-folks.jpg">
+                    <script type="text/template">
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Thank you
+                    Bernard Lange
+
+                    @gustaff_weldon
+                    </script>
+                </section>
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme || 'night', // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>

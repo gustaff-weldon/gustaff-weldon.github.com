@@ -1,0 +1,1101 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Web Performance</title>
+
+        <meta name="description" content="Musings about web performance">
+        <meta name="author" content="Bernard Lange">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+        <style>
+            .reveal {
+                font-size: 40px;
+            }
+
+            /* override theme styles ... */
+            .reveal section .img-clean {
+                border: 0;
+                background: none;
+                box-shadow: none;
+            }
+
+            .reveal section .img-zoom-m {
+                -webkit-transform: scale( 1.3 );
+                transform: scale( 1.3 );
+            }
+
+            .media-aside {
+                float: right;
+                margin: 1em;
+                width: 40%;
+            }
+
+            .reveal table {
+                margin-bottom: 0.5em;
+            }
+
+            .reveal table caption {
+                font-size: 1.2em;
+                font-weight: bold;
+                margin-bottom: 0.4em;
+            }
+
+            .reveal table table tr:nth-child(odd) th {
+                background: #404040;
+            }
+
+            .reveal table tr:nth-child(odd) td {
+                background: #404040;
+            }
+
+            .reveal table td,
+            .reveal table th {
+                padding: 0.2em 0.2em;
+                vertical-align: middle;
+            }
+
+            .reveal pre {
+                font-size: 0.6em;
+            }
+
+            /** custom styles **/
+            .reveal .text-contra {
+                color: black;
+            }
+
+            .delayed-content {
+                opacity: 0;
+                transition: all 1s ease-in 2s;
+            }
+
+            .present .delayed-content {
+                opacity: 1;
+            }
+
+            .reveal .selector {
+                font-size: 2.5em;
+                font-family: monospace;
+            }
+
+            .reveal .selector .highlight {
+                color: green;
+                border-bottom: 0.1em solid;
+            }
+
+            .reveal sub {
+                font-size: 0.5em;
+            }
+
+            .reveal .links-ref {
+                font-size: 0.8em;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+
+                <section data-markdown data-background="img/tv-test-picture.jpg">
+                    <script type="text/template">
+
+                    </script>
+                </section>
+
+                <section data-markdown data-transition="fade">
+                    <script type="text/template">
+                        # Don't make me wait.
+                        ## Web performance. Episode 2.
+
+                        <br>
+                        Directed by:
+
+                        Bernard Lange
+
+                        @gustaff_weldon
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template" class="fragment">
+                    ## [Previously on the show](./index.html)
+                    <ul>
+                        <li class="fragment">Make payload smaller</li>
+                        <li class="fragment">Reduce number of HTTP requests</li>
+                        <li class="fragment">Promote parallel downloads</li>
+                    </ul>
+                    </script>
+                </section>
+
+                <section data-transition="fade" data-background="#fff">
+                    <img alt="Loading..." src="img/ajax_loader.gif" class="img-clean">
+
+                    <p class="delayed-content text-contra">
+                        <strong>Your users also don't like waiting...</strong>
+                    </p>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    <a href="https://www.facebook.com/pages/I-Dont-Like-Waiting/170483584139"><img src="img/fb-wating.png" class="img-clean"></a>
+
+                    Note:
+                    Web tend to agree
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## How fast is fast?
+                    <ul>
+                    <li class="fragment">
+                    **0.1s** - Instant
+                    </li>
+
+                    <li class="fragment">
+                    ** 1s ** - I'm still in control
+                    </li>
+
+                    <li class="fragment">
+                    ** 10s+ ** - I'll check the Twitter...
+                    </li>
+                    </ul>
+                    Note:
+                    Norman-Nielsen, 1993, 2010 studies
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Keep interactions <em>under 250ms</em>
+                    </script>
+                </section>
+
+                <section>
+                    <section data-markdown data-background="img/gears.png">
+                        <script type="text/template">
+                        # Browser at work
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        <img alt="Browser architecture" src="img/browser-layers.png" class="img-clean">
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <img alt="Rendering engine flow" src="img/rendering-flow.png" class="img-clean img-zoom-m">
+                        </script>
+                    </section>
+
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <img alt="Browser architecture" src="img/browser-full-architecture.png" class="img-clean img-zoom-m">
+                        </script>
+                    </section>
+
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <table>
+                            <caption>Kayak, Expedia, Priceline, Travelocity, and Orbitz</caption>
+                            <tbody>
+                                <tr>
+                                    <td>&nbsp;</td><td>Site #1</td><td>Site #2</td><td>Site #3</td><td>Site #4</td><td>Site #5</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Size (k)</td><td>3,697</td><td>2,278</td><td>1,061</td><td>1,812</td><td>1,372</td>
+                                </tr>
+                                <tr>
+                                    <td>Number of Elements</td><td>1,504</td><td>1,100</td><td>2,673</td><td>4,252</td><td>900</td>
+                                </tr>
+                                <tr>
+                                    <td>CSS Rules</td><td>1,392</td><td>5,325</td><td>1,105</td><td>1,672</td><td>3,902</td></tr><tr><td>Image Files</td><td>41</td><td>29</td><td>66</td><td>12</td><td>6</td>
+                                </tr>
+                                <tr>
+                                    <td>Script Lines</td><td>77,768</td><td>39,183</td><td>12,643</td><td>10,284</td><td>38,269</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        source [ALA](http://alistapart.com/column/performance-matters)
+                        </script>
+                    </section>
+
+                    <section data-markdown data-background="#fff">
+                        <script type="text/template">
+                        <img alt="Top 5 travel sites client performance" src="img/ala-travel-sites.png" class="img-clean" >
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown data-background="img/hamsters.jpg">
+                        <script type="text/template">
+                            # A story of one thread
+                            Note:
+                            The process shared by JavaScript and user interface updates is frequently referred to as the browser UI thread (though the term “thread” is not necessarily accurate for all browsers). The UI thread works on a simple queuing system where tasks are kept until the process is idle. Once idle, the next task in the queue is retrieved and executed. These tasks are either JavaScript code to execute or UI updates to perform, which include redraws and reflows. Perhaps the most interesting part of this process is that each input may result in one or more tasks being added to the queue.
+
+                        </script>notes
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Tasks queue
+                            * Parsing resources
+                            * JavaScript code
+                            * UI updates
+                                * reflow
+                                * repaint
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ![Reflow and repaint](img/devtools-frames.jpg)
+                        </script>
+                    </section>
+
+                    <section data-markdown data-background="#fff">
+                        <script type="text/template">
+                        <img src="img/css-rule-reflow-repaint.png" class="img-clean" />
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Reflow
+                        * Time to apply CSS, re-layout elements
+                        * Caused Changes to **layout properties**.
+
+
+                        <code>width, border, padding, float, font-size</code> and [many](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/) [more](http://goo.gl/lPVJY6)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Repaint
+                        * repaint - time to render elements on browser canvas
+                        * Changes to **visual properties**.
+
+
+                        <code>color, visibility, background, box-shadow, border-style</code> and [many](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/) [more](http://goo.gl/lPVJY6)
+                        </script>
+                    </section>
+
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        * <a href="http://www.holidaycheck.com">Chrome repaints demo</a>
+                        * turn on "Show paint rectangles"
+                        </script>
+                    </section>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    # Markup
+                    </script>
+                </section>
+
+                <section>
+                    <section data-markdown data-background="#fff" data-transition="fade">
+                        <script type="text/template">
+                        <img alt"Tree" src="img/tree-birds.jpg" class="img-clean">
+                        </script>
+                    </section>
+
+                    <section data-markdown data-transition="fade" data-background="#fff">
+                        <script type="text/template">
+                        <h1 class="fragment text-contra">DO(0)M</h1>
+                        <img alt"Tree" src="img/tree-owls.jpg" class="img-clean">
+                        <p class="fragment text-contra">I'm Mister Slow &trade;</p>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Reduce number of DOM elements
+
+                        Don't do this
+                        <pre><code>&lt;div class="menu"&gt;
+                            &lt;ul class="nav"&gt;
+                                &lt;li&gt; &lt;a class="navlink" href="/home.html"&gt; home &lt;/a&gt; &lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/div&gt;</code></pre>
+
+                        Do this:
+                        <pre><code>&lt;ul class="nav"&gt;
+                            &lt;li&gt; &lt;a href="/home.html"&gt; home &lt;/a&gt; &lt;/li&gt;
+                        &lt;/ul&gt;</code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        [FF Demo time](http://www.holidaycheck.com)
+
+                        [Visualizer Script](http://www.scottlogic.com/blog/2012/03/09/explodz-a-webkit-dom-visualizer.html)
+
+                        Note:
+                        Firefox has a nice 3D visualisation of page.
+                        There's also a script that does that for other browsers.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Don’t touch DOM... too often
+
+                        Don't do this:
+                        ```
+                        var $ul = $("<ul/>").appendTo("body");
+                        for (var i = 0; i < 100; i++) {
+                            $("<li/>").appendTo($ul);
+                        }
+                        ```
+                        29ms – plain page / 159ms – jquery.com
+                        <br><br>
+
+
+                        Do this:
+                        ```
+                        var $ul = $("<ul/>")
+                        for (var i = 0; i < 100; i++) {
+                            $("<li/>").appendTo($ul);
+                        }
+                        $ul.appendTo("body");
+
+                        ```
+                        9ms – plain page / 88ms – jquery.com
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## <code>innerHTML</code>
+                        * Might help if DOM operations are too slow.
+                        * Test first!
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Costly elements
+                        * iframes are the [most expensive DOM element to create](http://stevesouders.com/efws/costofelements.php)
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        # CSS
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <img class="media-aside img-clean" src="img/captain-obvious.png" />
+                        ## Avoid styling
+                        ### (seriously)
+                        * rely on cascading
+                        * rely on inheritance
+                        http://www.w3.org/TR/CSS21/propidx.html
+                        </script>
+                    </section>
+
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Remove unused rules
+                        For every element in DOM, browser scans all rules to find ones that apply
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <span class="selector">#page ul a</span>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <span class="selector">#page ul <span class="highlight">a</span></span>
+                        Note:
+                        KEY SELECTOR
+                        The style system matches a rule by <span>starting with the rightmost</span> selector and moving to the left  through the rule's selectors.
+
+                        As long as your little subtree continues to check out, the style system will continue moving to the left until it either matches the rule or bails out because of a mismatch.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <span class="selector">#page <span class="highlight">ul a</span></span>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <span class="selector"><span class="highlight">#page ul a</span></span>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Inefficient CSS selectors
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        Avoiding <strong>inefficient key selectors</strong> that match large numbers of elements can speed up page rendering.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### Rules with descendant selectors
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <p class="selector">.box *</p>
+                        find every element and climb its ancestors until <code>.box</code> or DOM root (!) is found
+                        <br>
+                        </div>
+
+                        Note:
+                        Rules with the universal selector as the key
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <p class="selector">#toc a</p>
+                        find every A and climb its ancestors until <code>id="toc"</code> or DOM root (!) is found
+                        <br>
+                        </div>
+
+                        Note:
+                        Rules with a tag selector as the key
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### Rules with child or adjacent selectors
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <p class="selector">#toc > li</p>
+                        find every LI whose parent is id="toc"
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### Rules with overly qualified selectors
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <p class="selector">ul#nav-main</p>
+                        IDs are unique anyway, <code>ul</code> just adds unnecessary checks
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <p class="selector">p.class0007 span</p>
+                        find every span and climb its ancestors until matching <code>p</code> is found
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### Overly nested selectors
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        <p class="selector">.my-app .hotel-info .additional-info .more</p>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### Recommendations
+                        * avoid universal selectors
+                        ```
+                        A.class0007 * { ... }
+                        ```
+
+                        * prefer class and ID selectors over tag selectors
+                        ```
+                        .navbar-item {}
+                        ```
+                        ```
+                        #navbar {}
+                        ```
+
+                        * remove redundant qualifiers
+                        ```
+                        LI.tight {}
+                        ```
+                        ```
+                        .li-tight {}
+                        ```
+
+                        * avoid descendant selectors
+                        ```
+                        UL LI A {}
+                        ```
+                        ```
+                        .unordered-list-item {}
+                        ```
+                        </script>
+                    </section>
+
+<!--                     <section data-markdown>
+                        <script type="text/template">
+                        * avoid tag-child selectors
+                        ```
+                        UL > LI > A {}
+                        ```
+
+                        ```
+                        .li-anchor {}
+                        ```
+
+                        * be wary of child selectors
+                        ```
+                        DIV:first-child {}
+                        ```
+
+                        * Avoid attribute selectors
+                        ```
+                        .class0007 [href]
+                        ```
+
+                        * CSS3 selectors are really slow compared to .class/id selectors
+                        </script>
+                    </section>
+ -->
+                </section>
+
+
+                <section data-markdown>
+                    <script type="text/template">
+                        # JavaScript
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    <img alt="Long running script warning" src="img/long-running-chrome.png" class="clear-img">
+                    </script>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Web Workers
+                        ![Overlord and minions](img/overlord-minion.jpg)
+
+                        Think of a web worker as a Minion to browser Overlord
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        Main program code
+                        ```
+                        var minion = new Worker( "minion.js" );
+
+                        // Wait for minion to report back the results
+                        minion.onmessage = function( e ) {  
+                            // stash the plundered goods
+                            e.data.plunder;
+                        }
+
+                        minion.postMessage( {
+                            command: "plunder",
+                            object: "tower"
+                        } );
+                        ```
+
+                        minion.js
+                        ```
+                        onmessage = function( e ) {  
+                            if ( e.data.command === "plunder" ) {
+                                // ...Happily stealing everything...
+                                ...
+                                // and report back to overlord
+                                postMessage( {
+                                    response: "Me finished!"
+                                    plunder: gold
+                                } );
+                            }
+                        };
+
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## [Workers Demo](http://ie.microsoft.com/testdrive/Graphics/WorkerFountains/Default.html)
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-background="#fff" class="text-contra">
+                        <h2 class="text-contra">Yielding</h2>
+                        <p>A way of not being selfish and letting others use UI thread.</p>
+                        <img alt="Yielding" src="img/yielding.png" class="img-clean">
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Yielding
+                        Split long running task into chunks.
+                        ```
+                        function chunk( array, process, context ) {
+                            setTimeout( function() {
+                                var item = array.shift();
+                                process.call( context, item );
+
+                                if ( array.length > 0 ) {
+                                    setTimeout( arguments.callee, 100 );
+                                }
+                            }, 100 );
+                        }
+                        ```
+                        Example use:
+                        ```
+                        function printUppercase( item ) {
+                            console.log( item.toUppercase() );
+                        }
+
+                        var items[] = "Twinkle", "twinkle", "little", "star";
+
+                        chunk(items, printUppercase, window);
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### window.setImmediate( fn );
+
+                        * [Efficient Script Yielding](https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/setImmediate/Overview.html) Proposal
+                        * [The case for setImmediate()](http://www.nczonline.net/blog/2013/07/09/the-case-for-setimmediate/)
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Optimizations
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Micro-optimizations
+                        * Use local variables scope
+                        * String concatenation < array.join
+                        * Optimize loops var len = arr.len;
+                        * Avoid with/catch
+                        * If else > switch 1, 2
+                        * If else if else if < switch 1, 2, 3
+                        * Array[no] > switch > if
+                        * Reversed loop for(i--)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        # Do not micro-optimize*
+                        ##Think about algorithm,
+                        maybe adding stuff 100x times is not a best idea?
+
+                        <sub>*<a href="http://www.youtube.com/watch?v=65-RbBwZQdU">Unless you know what you are doing</a></sub>
+
+                        Note:
+                            Premature optimization might convolute code,
+                            Plus, browsers are really smart now, and your time might be wasted anyway.
+                            Watch the LXJS talk.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            [Chrome/FF profilers / audits demo](http://www.holidaycheck.com)
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Events
+                        </script>
+                    </section>
+
+                    <section data-markdown data-background="#fff">
+                        <script type="text/template">
+                        <h2 class="text-contra">Delegate event handling</h2>
+                        <img alt="Event bubbling" src="img/event-bubbling-todo.png" class="img-clean">
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        Don't do this:
+                        ```
+                        $sitemap.find( "a" ).click( expandChildren );
+                        ```
+
+                        <br>
+                        Do this:
+                        ```
+                        $sitemap.on( "click", "a", expandChildren );
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Throttle frequently occuring events
+
+                        <code>scroll, resize, mousemove, touchMove</code> etc.
+
+                        Don't do this:
+                        ```
+                        window.addEventListener( "scroll", function() {
+                            $fixedElement.style.top = window.scrollY;
+                        }, false );
+                        ```
+                        <br>
+                        Better:
+                        ```
+                        window.addEventListener( "scroll", throttle( doStuff, 30 ), false );
+                        ```
+                        <br>
+                        Even better: debounce events (we'll get to that)
+                        Note:
+                        window.addEventListener( "scroll", function() { console.log( window.scrollY ) } );
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## 60 FPS
+                        You have 16.6 ms per frame
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Applies to
+                        * page rendering
+                        * scrolling
+                        * animating
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ![Reflow and repaint](img/devtools-frames.jpg)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Drawing
+                        * calculate the styles  (Recalculate Style),
+                        * generate the geometry and position (Layout),
+                        * fill out the pixels for each element into layers (Paint Setup and Paint)
+                        * and draw the layers out to screen (Composite Layers).
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Getting smooth
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        [![Animatable](img/animatable.png)](http://leaverou.github.io/animatable/)
+                        </script>
+                    </section>
+
+                    <section data-markdown data-background="#fff">
+                        <script type="text/template">
+                        <img alt="Things browsers animate fast" src="img/xcheap-operations.jpg" class="img-clean">
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        [CSS animation of top/left vs transform in slow-mo.](http://www.youtube.com/watch?v=-62uPWUxgcg)
+                        <iframe width="640" height="480" src="//www.youtube-nocookie.com/embed/-62uPWUxgcg" frameborder="0" allowfullscreen></iframe>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Animate using transitions
+                        ```
+                        .delayed-content {
+                            opacity: 0;
+                            transition: all 1s ease-in 2s;
+                        }
+
+                        .active .delayed-content {
+                            opacity: 1;
+                        }
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Avoid reflow/repaints
+```
+// Suboptimal, causes layout twice.
+var newWidth = aDiv.offsetWidth + 10; // Read
+aDiv.style.width = newWidth + 'px'; // Write
+var newHeight = aDiv.offsetHeight + 10; // Read
+aDiv.style.height = newHeight + 'px'; // Write
+
+// Better, only one layout.
+var newWidth = aDiv.offsetWidth + 10; // Read
+var newHeight = aDiv.offsetHeight + 10; // Read
+aDiv.style.width = newWidth + 'px'; // Write
+aDiv.style.height = newHeight + 'px'; // Write
+```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### What triggers reflow?
+                        ```
+                        clientHeight, clientLeft, clientTop, clientWidth, focus(),
+                        getBoundingClientRect(), getClientRects(), innerText,
+                        offsetHeight, offsetLeft, offsetParent, offsetTop,
+                        offsetWidth, outerText, scrollByLines(), scrollByPages(),
+                        scrollHeight, scrollIntoView(), scrollIntoViewIfNeeded(),
+                        scrollLeft, scrollTop, scrollWidth
+                        ```
+
+                        And there is [other stuff](http://gent.ilcore.com/2011/03/how-not-to-trigger-layout-in-webkit.html)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## use <code>classList</code> when possible
+
+                        ```
+                        if (scrollY > moverTop[m] - halfWindowHeight) {
+                            mover.className = 'mover left';
+                        } else {
+                            mover.className = 'mover';
+                        }
+                        ```
+
+                        This is faster:
+                        ```
+                        if(lastScrollY > moverTop[m] - halfWindowHeight) {
+                            mover.classList.add('left');
+                        } else {
+                            mover.classList.remove('left');
+                        }
+                        ```
+
+                        [classList for Great Good! (YT)](http://www.youtube.com/watch?v=hZJacl2VkKo)
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Align paints with screen refresh rate
+                        ```
+                        window.requestAnimationFrame( stuffToDo )
+                        ```
+
+                        </script>
+                    </section>
+
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Back to the scroll improvements
+
+                        ```
+                        window.addEventListener( "scroll", function() {
+                            fixedElement.style.top = window.scrollTop;
+                        }, false );
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        ## Debounce events with rAF
+                        <script type="text/template">
+                        ```
+                        var lastTop, scheduled = false;
+
+                        function onScroll() {
+                            lastTop = window.scrollY;
+                            if (!scheduled ) {
+                                requestAnimationFrame( doStuff );
+                                scheduled = true;
+                            }
+                        }
+                        function doStuff() {
+                            scheduled = false;
+                            fixedElement.style.top = lastTop;
+                        }
+                        window.addEventListener( "scroll", onScroll, false );
+                        ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ### requestAnimationFrame
+                        * avoid unnecessary renders
+                        * helps to maintain constant framerate ( with timestamps )
+                        * can stack up, request sparingly
+                        </script>
+                    </section>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Takeaways
+                    * reduce parsing time
+                    * avoid complex and nested selectors
+                    * reduce DOM size and # of DOM operations
+                    * do not block UI thread
+                    * animate with CSS and rAF
+                    </script>
+                </section>
+
+                <section data-markdown class="links-ref">
+                    <script type="text/template">
+                    ## Self study
+                    * [ALA: Performance matters](http://alistapart.com/column/performance-matters)
+                    * [How browsers work](http://taligarsiel.com/Projects/howbrowserswork1.htm)
+                    * [High Performance Animations](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
+                    * [Faster Animations with requestAnimationFrame](http://www.html5rocks.com/en/tutorials/speed/animations/)
+                    * [IE11 Performance tools](http://www.modern.ie/en-us/article/performance-measurement-with-f12-developer-tools)
+                    <img class="media-aside" src="img/more-reading.jpg" />
+                    * [Efficient Script Yielding](http://ie.microsoft.com/testdrive/Performance/SetImmediateSorting2/)
+                    * [How (not) to trigger a layout in WebKit](http://gent.ilcore.com/2011/03/how-not-to-trigger-layout-in-webkit.html)
+                    * [Reflows and repaints](http://www.phpied.com/rendering-repaint-reflowrelayout-restyle/)
+                    * [Optimize browser rendering](https://developers.google.com/speed/docs/best-practices/rendering?csw=1)
+                    * [Writing Efficient CSS](https://developer.mozilla.org/en/Writing_Efficient_CSS)
+                    * [50 performance tricks](http://channel9.msdn.com/Events/Build/2012/3-132)
+                    * [Jank Busters: Building Performant Web Apps](http://www.youtube.com/watch?v=hAzhayTnhEI)
+                    * [3 time limits NNM Group](http://www.nngroup.com/articles/response-times-3-important-limits/)
+                    </script>
+                </section>
+
+                <section data-markdown data-background="img/questions.jpg">
+                    <script type="text/template">
+                    </script>
+                </section>
+
+                <section data-markdown data-background="img/thats-all-folks.jpg">
+                    <script type="text/template">
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Thank you
+                    Bernard Lange
+
+                    @gustaff_weldon
+                    </script>
+                </section>
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme || 'night', // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+   <head>
+       <meta charset="utf-8" />
+       <meta name="viewport" content="width=1024" />
+       <meta name="apple-mobile-web-app-capable" content="yes" />
+       <title>&lt;video/&gt;
+by Bernard Lange (@gustaff_weldon)</title>
+       <meta name="author" content="Bernard Lange" />
+       <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+       <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:300,200,400,700'
+rel='stylesheet' type='text/css'>
+       <link href='http://fonts.googleapis.com/css?family=Nixie+One'
+rel='stylesheet' type='text/css'>
+       <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic"
+rel="stylesheet" />
+       <link href="css/styles.css" rel="stylesheet" />
+       <!-- <link href="css/prism.css" rel="stylesheet" /> -->
+   </head>
+
+   <body>
+       <div id="impress">
+           <div class="fallback-message">
+               <p>Your browser <b>doesn't support the features
+required</b> by impress.js, so you are presented with a simplified
+version of this presentation.</p>
+               <p>For the best experience please use the latest
+<b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser. Upcoming
+version 10 of Internet Explorer <i>should</i> also handle it.</p>
+           </div>
+
+            <article class="intro step slide" data-x="400" data-z="4000" >
+                <h1>&lt;video/&gt;</h1>
+                <p>Bernard Lange<br>@gustaff_weldon</p>
+            </article>
+
+           <article class="step slide">
+                <h2>The markup</h2>
+                <div class="code-example">
+                    <video controls>
+                        <source src="./media/big_buck_bunny.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <div class="code-example">
+                    <video controls src="http://content.bitsontherun.com/videos/bkaovAYt-q9LIhmnk.mp4"/>
+                    </video>
+                </div>
+           </article>
+
+
+           <article class="step slide">
+                <h2><a href="http://caniuse.com/#search=video">Can I use video?</a></h2>
+                <table>
+                    <tbody><tr>
+                        <th></th>
+                        <th>mp4</th>
+                        <th>WebM</th>
+                    </tr>
+                    <tr>
+                        <td>Chrome</td>
+                        <td>&#10003;</td>
+                        <td>&#10003;</td>
+                    </tr>
+                    <tr>
+                        <td>Firefox</td>
+                        <td>&#10003;</td>
+                        <td>&#10003;</td>
+                    </tr>
+                    <tr>
+                        <td>Internet Explorer</td>
+                        <td>&#10003;</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Safari</td>
+                        <td>&#10003;</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>iOS</td>
+                        <td>&#10003;</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Android</td>
+                        <td>&#10003;</td>
+                        <td>&#10003;<sup>*<sup></td>
+                    </tr>
+                    <tr>
+                        <td>Opera</td>
+                        <td></td>
+                        <td>&#10003;</td>
+                    </tr>
+                </tbody></table>
+                <p>
+                    <a href="http://camendesign.com/code/video_for_everybody/test.html">Video Support test</a><br/>
+                    <a href="http://www.longtailvideo.com/html5/formats/">HTML5 Video Formats Details</a>
+                </p>
+           </article>
+
+           <article class="step slide">
+                <h1 class="h-super">mp4</h1>
+                <h2>webm</h2>
+                <h3>ogg*</h3>
+                <p><a href="http://www.mirovideoconverter.com/">Miro Video Converter</a></p>
+           </article>
+
+           <article class="step slide">
+                <h2>Video For Everybody</h2>
+                <div class="code-example">
+                    <!-- "Video For Everybody" http://camendesign.com/code/video_for_everybody -->
+                    <video controls="controls" autoplay="autoplay" poster="./img/big-buck-bunny_poster.jpg" width="640" height="360">
+                      <source src="./media/big_buck_bunny-2.mp4" type="video/mp4" />
+                      <source src="./media/big_buck_bunny-2.webm" type="video/webm" />
+                      <source src="./media/big_buck_bunny-2.ogv" type="video/ogg" />
+                      <object type="application/x-shockwave-flash" data="http://player.longtailvideo.com/player.swf" width="640" height="360">
+                        <param name="movie" value="http://player.longtailvideo.com/player.swf" />
+                        <param name="allowFullScreen" value="true" />
+                        <param name="wmode" value="transparent" />
+                        <param name="flashVars" value="autostart=true&amp;controlbar=over&amp;image=.%2Fimg%2Fbig-buck-bunny_poster.jpg&amp;file=.%2Fmedia%2Fbig_buck_bunny.mp4" />
+                        <img alt="Big Buck Bunny" src="./img/big-buck-bunny_poster.jpg" width="640" height="360" title="No video playback capabilities, please download the video below" />
+                      </object>
+                    </video>
+                    <p>
+                      Download video: <a href="./media/big_buck_bunny.mp4">MP4 format</a> | <a href="./media/big_buck_bunny.ogv">Ogg format</a> | <a href="./media/big_buck_bunny.webm">WebM format</a>
+                    </p>
+                </div>
+           </article>
+
+           <article class="step slide">
+            <div class="code-example">
+                <video preload="preload" autoplay="autoplay" controls="controls" poster="./img/big-buck-bunny_poster.jpg" width="640" height="360">
+                    <source src="./media/big_buck_bunny-3.mp4" type="video/mp4" />
+                </video>
+            </div>
+                <ul>
+                    <li>Poster</li>
+                    <li>Preload</li>
+                    <li>Autoplay</li>
+                    <li>Controls</li>
+                </ul>
+           </article>
+
+           <article class="step slide">
+                <h1>Video + JS</h1>
+           </article>
+
+
+           <article class="step slide">
+                <h2>Video supported?</h2>
+                <pre><code class="code language-js">return !!document.createElement( "video" ).canPlayType;</code></pre>
+           </article>
+
+           <article class="step slide">
+                <h2>Video format supported?</h2>
+                <pre><code class="code language-js">
+var videoElement = document.createElement( "video" )
+return videoElement.canPlayType( "video/webm" );
+                </code></pre>
+                <p>"probably", "maybe", ""</p>
+           </article>
+
+            <article class="step slide">
+                <h2>Scripting video</h2>
+                    <pre><code class="code language-js">
+videoElement.addEventListener( eventName, listener, false )
+videoElement.load();
+videoElement.play();
+videoElement.pause();
+etc...
+                    </code></pre>
+                    <p><a href="http://www.w3.org/2010/05/video/mediaevents.html">Playground page</a></p>
+            </article>
+
+           <article class="step slide">
+                <h2>Fullscreen support</h2>
+                <pre><code class="code language-js">
+videoElement.requestFullscreen()
+videoElement.exitFullscreen()
+element.addEventListener('fullscreeneventchange', listener , true);
+                </code></pre>
+                <p>See <a href="http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin/">more details on fullscreen</a> API usage</p>
+           </article>
+
+           <article class="step slide">
+                <h2>Players</h2>
+                <p>
+                    <a href="http://mediaelementjs.com/">MediaElement.js<a/>,
+                    <a href="http://www.videojs.com/">VideoJs</a>, <a href="http://flowplayer.org/">FlowPlayer</a>, <a href="http://www.longtailvideo.com/jw-player/">JWPlayer</a> and more.
+                </p>
+           </article>
+
+           <article class="step slide">
+                <h2>WebVTT: Subtitles for the web</h2>
+                <!-- "Video For Everybody" http://camendesign.com/code/video_for_everybody -->
+                <video height="272" width="640" poster="http://content.bitsontherun.com/thumbs/q1fx20VZ-640.jpg" controls="">
+                    <source src="./media/sintel.mp4" type="video/mp4">
+                    <source src="./media/sintel.webm" type="video/webm">
+                    <track src="./media/captions.vtt" kind="captions" default=""></track>
+                </video>
+                <p><a href="http://atelier.u-sub.net/srt2vtt/">SRT -> VVT</a></p>
+           </article>
+
+            <article class="step slide">
+                <video id="gum"></video>
+                <p>
+                    <button id="gum-start">Turn on camera</button>
+                </p>
+           </article>
+
+            <article class="step slide">
+            <pre><code class="code language-js">
+var video = document.getElementById( "gum" );
+video.autoplay = true; // Make sure we're not frozen!
+
+// Note: not using vendor prefixes!
+navigator.getUserMedia({video: true}, function(stream) {
+    video.src = window.URL.createObjectURL(stream);
+}, function(e) {
+    console.error(e);
+});
+</code></pre>
+
+                <p>
+                    <a href="http://shinydemos.com/getusermedia/">More demos</a>
+                </p>
+           </article>
+
+
+            <article class="step slide">
+                <h1>References</h1>
+                <ul>
+                    <li><a href="http://www.html5rocks.com/en/tutorials/video/basics/">http://www.html5rocks.com/en/tutorials/video/basics/</a></li>
+                    <li><a href="http://www.longtailvideo.com/html5/">http://www.longtailvideo.com/html5/</a></li>
+                    <li><a href="http://camendesign.com/code/video_for_everybody">http://camendesign.com/code/video_for_everybody</a></li>
+                    <li><a href="http://diveintohtml5.info/video.html">http://diveintohtml5.info/video.html</a></li>
+                    <li><a href="http://www.longtailvideo.com/html5/formats/">http://www.longtailvideo.com/html5/formats/</a></li>
+                    <li><a href="http://www.w3.org/TR/html5/embedded-content-0.html#the-video-element">http://www.w3.org/TR/html5/embedded-content-0.html#the-video-element</a></li>
+                    <li><a href="http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin">http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin</a></li>
+                    <li><a href="http://ericbidelman.tumblr.com/post/31486670538/creating-webm-video-from-getusermedia">http://ericbidelman.tumblr.com/post/31486670538/creating-webm-video-from-getusermedia</a>
+                </ul>
+            </article>
+
+            <article class="step slide">
+                <h1>Takeaways</h1>
+                <ul>
+                    <li>widely supported (desktop, mobile)</li>
+                    <li>mp4 is a winner</li>
+                    <li>variable streaming still not there</li>
+                </ul>
+            </article>
+
+            <article class="step slide">
+            Questions?
+            </article>
+
+            <article class="step slide outro" data-x="1500" data-z="2000" >
+               <h1>Thank you</h1>
+               <p>Bernard Lange<br>
+               @gustaff_weldon
+               </p>
+
+           </article>
+       </div>
+       <div class="hint">
+           <p>Use a spacebar or arrow keys to navigate</p>
+       </div>
+
+   </body>
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+   <script src="js/impress.js"></script>
+   <script src="js/code-example.js"></script>
+   <!--script src="js/prism.js"></script-->
+
+   <script>
+        (function() {
+            var steps = document.querySelectorAll( ".step" );
+
+            var count = steps.length;
+            var delta = 360 / ( count - 1 ); // skip title slide
+
+            for ( var i = 1, len = steps.length, curr = 0; i < len; i++ ) {
+                steps[ i ].setAttribute( "data-rotate", curr )
+                steps[ i ].setAttribute( "data-x", "3500" )
+                curr += delta;
+            }
+
+            initCodeExamples();
+
+            if ("ontouchstart" in document.documentElement) {
+                document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+            }
+            // prettyPrint();
+            impress();
+
+            navigator.getUserMedia = navigator.getUserMedia ||
+                navigator.webkitGetUserMedia || navigator.mozGetUserMedia ||
+                navigator.msGetUserMedia;
+
+            $( "#gum-start" ).click( function() {
+                $( this ).attr( "disabled", true );
+                var video = document.getElementById( "gum" );
+                video.autoplay = true; // Make sure we're not frozen!
+
+                // Note: not using vendor prefixes!
+                navigator.getUserMedia({video: true}, function(stream) {
+                  video.src = window.URL.createObjectURL(stream);
+                }, function(e) {
+                  console.error(e);
+                });
+            } );
+        }());
+   </script>
+</html>
